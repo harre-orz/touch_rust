@@ -1,0 +1,6 @@
+[package]
+name = "simplelib"
+version = "0.1.0"
+authors = ["deadcheat <feat.dead.cheat+github@gmail.com>"]
+
+[dependencies]

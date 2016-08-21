@@ -1,0 +1,8 @@
+[package]
+name = "04_rest"
+version = "0.1.0"
+authors = ["deadcheat <feat.dead.cheat+github@gmail.com>"]
+
+[dependencies]
+nickel = "*"
+rustc-serialize = "0.3"

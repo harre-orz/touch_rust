@@ -1,10 +1,6 @@
 use std::env;
 
 fn main() {
-	let mut args = env::args();
-	let mut name = "Someone".to_string();
-	if args.len() > 1 {
-		name = args.nth(1).unwrap();
-	}
+	let name = env::args().skip(1).next().unwrap_or("Someone".to_string());
 	println!("hello world! {} san!", name);
 }

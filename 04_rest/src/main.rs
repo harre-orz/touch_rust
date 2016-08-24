@@ -3,6 +3,8 @@ extern crate rustc_serialize;
 extern crate nickel;
 extern crate nickel_sqlite;
 
+mod models;
+
 use nickel::{
     Nickel,
     HttpRouter,
@@ -17,10 +19,15 @@ use nickel_sqlite::{
     SqliteRequestExtensions
 };
 use rustc_serialize::json::{
-    Json,
     ToJson
 };
-use std::collections::BTreeMap;
+
+use models::{
+    Todo,
+    TodoList,
+    TodoForm,
+    TodoUpdateForm
+};
 
 struct Logger;
 
@@ -29,60 +36,6 @@ impl<D> Middleware<D> for Logger {
     -> MiddlewareResult<'mw, D> {
         println!("logging request from logger middleware: {:?}", req.origin.uri);
         res.next_middleware()
-    }
-}
-
-#[derive(RustcDecodable, RustcEncodable)]
-struct TodoForm {
-    title:  String,
-    description: String,
-}
-
-#[derive(RustcDecodable, RustcEncodable)]
-struct TodoUpdateForm {
-    title:  String,
-    description: String,
-    status: i32,
-}
-
-#[derive(RustcDecodable, RustcEncodable)]
-struct Todo {
-    id: i32,
-    title:  String,
-    description: String,
-    status: i32,
-}
-
-#[derive(RustcDecodable, RustcEncodable)]
-struct TodoList {
-    data: Vec<Todo>,
-}
-
-impl ToJson for Todo {
-    fn to_json(&self) -> Json {
-        let mut map = BTreeMap::new();
-        map.insert("id".to_string(), self.id.to_json());
-        map.insert("title".to_string(), self.title.to_json());
-        map.insert("description".to_string(), self.description.to_json());
-        map.insert("status".to_string(), self.status.to_json());
-        Json::Object(map)
-    }
-}
-
-impl ToJson for TodoList {
-    fn to_json(&self) -> Json {
-        let mut vec = Vec::new();
-        let mut outer = BTreeMap::new();
-        for todo in &self.data {
-            let mut map = BTreeMap::new();
-            map.insert("id".to_string(), todo.id.to_json());
-            map.insert("title".to_string(), todo.title.to_json());
-            map.insert("description".to_string(), todo.description.to_json());
-            map.insert("status".to_string(), todo.status.to_json());
-            vec.push(map);
-        }
-        outer.insert("data".to_string(), vec.to_json());
-        Json::Object(outer)
     }
 }
 

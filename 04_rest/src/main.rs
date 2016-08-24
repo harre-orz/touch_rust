@@ -3,7 +3,7 @@ extern crate rustc_serialize;
 extern crate nickel;
 extern crate nickel_sqlite;
 
-mod models;
+mod models; // search ./models.rs or ./models/hogehoge.rs
 
 use nickel::{
     Nickel,

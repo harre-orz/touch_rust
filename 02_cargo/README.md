@@ -20,6 +20,6 @@
 
 `cargo build`
 
-## インストール(˜/.cargo/bin にコピーされる)
+## インストール(˜~/.cargo/bin にコピーされる)
 
 `cargo install`
